@@ -36,7 +36,6 @@
     <h1>📚 Enf-Library</h1>
     <nav>
       <a href="{{ url('/') }}">Beranda</a>
-      <a href="/koleksi">Koleksi</a>
       <a href="/ebook">E-Book & Artikel</a>
       <a href="/bookmark">Bookmark</a>
       <a href="{{ route('catatan.index') }}">Catatan</a>
