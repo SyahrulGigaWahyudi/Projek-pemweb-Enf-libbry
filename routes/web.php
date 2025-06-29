@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\Bookmark;
+use App\Http\Controllers\BookmarkController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProfileController;
@@ -13,6 +14,7 @@ Route::get('/', function () {
 
 
 Route::get('/ebook', [BookController::class, 'index']);
+Route::post('/bookmark/{id}', [BookmarkController::class, 'store'])->name('add-bookmark');
 
 Route::resource('catatan', NoteController::class);
 
@@ -27,6 +29,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-Route::get('/bookmark', [Bookmark::class, 'index']);
+Route::get('/bookmark', [BookmarkController::class, 'index']);
 
 Route::resource('catatan', NoteController::class);
