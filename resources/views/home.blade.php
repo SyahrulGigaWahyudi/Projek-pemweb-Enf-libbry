@@ -46,6 +46,8 @@
     </ul>
   </section>
 
+
+
   <section>
     <a href="{{ url('/koleksi') }}">
       <button>Klik Disini Untuk Jelajahi Koleksi Buku</button>

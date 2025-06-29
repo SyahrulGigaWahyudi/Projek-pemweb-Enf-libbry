@@ -17,6 +17,7 @@
       color: white;
       padding: 1rem;
       text-align: center;
+      position: relative;
     }
     nav a {
       color: white;
@@ -28,8 +29,33 @@
       padding: 2rem;
       background-color: #f8f9fa;
     }
+    .auth-buttons {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .auth-buttons a,
+    .auth-buttons button {
+      background-color: white;
+      color: #2e3a59;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .auth-username {
+      color: #ffffff;
+      margin-right: 0.5rem;
+      font-weight: normal;
+    }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -41,6 +67,22 @@
       <a href="{{ route('catatan.index') }}">Catatan</a>
       <a href="/rekomendasi">Rekomendasi</a>
     </nav>
+
+    {{-- Tombol Login / Register / Logout --}}
+    <div class="auth-buttons">
+      @guest
+        <a href="{{ route('login') }}">Login</a>
+        <a href="{{ route('register') }}">Register</a>
+      @endguest
+
+      @auth
+        <span class="auth-username">👋 Halo, {{ Auth::user()->name }}</span>
+        <form method="POST" action="{{ route('logout') }}">
+          @csrf
+          <button type="submit">Logout</button>
+        </form>
+      @endauth
+    </div>
   </header>
 
   <main>

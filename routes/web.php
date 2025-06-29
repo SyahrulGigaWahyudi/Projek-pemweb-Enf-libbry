@@ -19,7 +19,7 @@ Route::post('/bookmark/{id}', [BookmarkController::class, 'store'])->name('add-b
 Route::resource('catatan', NoteController::class);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
