@@ -1,6 +1,8 @@
 <?php
 
+
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\Bookmark;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProfileController;
@@ -8,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 Route::get('/', function () {
     return view('home');
 });
+
 
 Route::get('/ebook', [BookController::class, 'index']);
 
@@ -24,3 +27,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+Route::get('/bookmark', [Bookmark::class, 'index']);
+
+Route::resource('catatan', NoteController::class);
