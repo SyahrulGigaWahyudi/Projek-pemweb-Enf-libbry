@@ -49,7 +49,7 @@
 
 
   <section>
-    <a href="{{ url('/koleksi') }}">
+    <a href="{{ url('/ebook') }}">
       <button>Klik Disini Untuk Jelajahi Koleksi Buku</button>
     </a>
   </section>
