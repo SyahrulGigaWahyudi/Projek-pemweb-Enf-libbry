@@ -54,6 +54,7 @@
       font-weight: normal;
     }
   </style>
+  @stack('styles')
 </head>
 
 <body>
@@ -65,7 +66,7 @@
       <a href="/ebook">E-Book & Artikel</a>
       <a href="/bookmark">Bookmark</a>
       <a href="{{ route('catatan.index') }}">Catatan</a>
-      <a href="/rekomendasi">Rekomendasi</a>
+      <a href="{{ route('rekomendasi') }}">Rekomendasi</a>
     </nav>
 
     {{-- Tombol Login / Register / Logout --}}

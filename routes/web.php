@@ -32,3 +32,7 @@ require __DIR__.'/auth.php';
 Route::get('/bookmark', [BookmarkController::class, 'index']);
 
 Route::resource('catatan', NoteController::class);
+
+Route::get('/rekomendasi', function () {
+    return view('rekomendasi');
+})->name('rekomendasi');
