@@ -72,7 +72,7 @@
             @foreach ($recommendations as $rec)
                 <div class="bg-white rounded shadow p-4 flex gap-4">
                     @if ($rec->cover)
-                        <img src="{{ asset('storage/' . $rec->cover) }}" alt="Cover" class="w-24 h-32 object-cover rounded">
+                        <img src="{{ asset($rec->cover) }}" alt="Cover" class="w-24 h-32 object-cover rounded">
                     @else
                         <div class="w-24 h-32 bg-gray-200 flex items-center justify-center text-sm text-gray-500 rounded">No Cover</div>
                     @endif
@@ -88,4 +88,5 @@
         </div>
     </div>
 @endif
+
 @endsection

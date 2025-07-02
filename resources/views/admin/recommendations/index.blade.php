@@ -11,7 +11,7 @@
             <div class="flex gap-6">
                 {{-- ✅ Gambar Cover --}}
                 @if ($recommendation->cover)
-                    <img src="{{ asset('storage/' . $recommendation->cover) }}"
+                    <img src="{{ asset($recommendation->cover) }}"
                          alt="Cover {{ $recommendation->title }}"
                          class="w-32 h-40 object-cover rounded">
                 @else

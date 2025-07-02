@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Recommendation;
-use Illuminate\Support\Facades\Storage;
 
 class RecommendationController extends Controller
 {
@@ -12,7 +11,6 @@ class RecommendationController extends Controller
     public function index()
     {
         $recommendations = Recommendation::with('user')->latest()->get();
-
         return view('admin.recommendations.index', compact('recommendations'));
     }
 
@@ -21,9 +19,9 @@ class RecommendationController extends Controller
     {
         $recommendation = Recommendation::findOrFail($id);
 
-        // Hapus gambar cover jika ada
-        if ($recommendation->cover && Storage::disk('public')->exists($recommendation->cover)) {
-            Storage::disk('public')->delete($recommendation->cover);
+        // ✅ Hapus gambar dari public/ jika ada
+        if ($recommendation->cover && file_exists(public_path($recommendation->cover))) {
+            unlink(public_path($recommendation->cover));
         }
 
         $recommendation->delete();

@@ -6,22 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Recommendation;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class RecommendationController extends Controller
 {
-    /**
-     * Tampilkan semua rekomendasi milik user saat ini.
-     */
+    // Tampilkan rekomendasi user
     public function index()
     {
         $recommendations = Recommendation::where('user_id', Auth::id())->latest()->get();
         return view('user.recommendations.index', compact('recommendations'));
     }
 
-    /**
-     * Simpan rekomendasi buku dari user.
-     */
+    // Simpan rekomendasi
     public function store(Request $request)
     {
         $request->validate([
@@ -36,7 +31,12 @@ class RecommendationController extends Controller
         $coverPath = null;
 
         if ($request->hasFile('cover')) {
-            $coverPath = $request->file('cover')->store('recommendation_covers', 'public');
+            // Simpan file di public/covers/
+            $filename = time() . '_' . $request->file('cover')->getClientOriginalName();
+            $request->file('cover')->move(public_path('covers'), $filename);
+
+            // Simpan path relatif
+            $coverPath = 'covers/' . $filename;
         }
 
         Recommendation::create([

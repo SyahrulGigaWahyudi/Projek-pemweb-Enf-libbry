@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -22,7 +21,7 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'publisher' => 'required|string|max:255',
@@ -32,13 +31,13 @@ class BookController extends Controller
             'read_link' => 'required|url',
         ]);
 
-        $data = $request->all();
-
         if ($request->hasFile('cover')) {
-            $data['cover'] = $request->file('cover')->store('covers', 'public');
+            $filename = time() . '_' . $request->file('cover')->getClientOriginalName();
+            $request->file('cover')->move(public_path('covers'), $filename);
+            $validated['cover'] = 'covers/' . $filename; // Simpan path relatif ke public
         }
 
-        Book::create($data);
+        Book::create($validated);
 
         return redirect()->route('admin.books.index')->with('success', 'Buku berhasil ditambahkan.');
     }
@@ -50,7 +49,7 @@ class BookController extends Controller
 
     public function update(Request $request, Book $book)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'publisher' => 'required|string|max:255',
@@ -60,26 +59,27 @@ class BookController extends Controller
             'read_link' => 'required|url',
         ]);
 
-        $data = $request->all();
-
         if ($request->hasFile('cover')) {
-            // Hapus cover lama kalau ada
-            if ($book->cover && Storage::disk('public')->exists($book->cover)) {
-                Storage::disk('public')->delete($book->cover);
+            // Hapus cover lama jika ada
+            if ($book->cover && file_exists(public_path($book->cover))) {
+                unlink(public_path($book->cover));
             }
 
-            $data['cover'] = $request->file('cover')->store('covers', 'public');
+            $filename = time() . '_' . $request->file('cover')->getClientOriginalName();
+            $request->file('cover')->move(public_path('covers'), $filename);
+            $validated['cover'] = 'covers/' . $filename;
         }
 
-        $book->update($data);
+        $book->update($validated);
 
         return redirect()->route('admin.books.index')->with('success', 'Buku berhasil diperbarui.');
     }
 
     public function destroy(Book $book)
     {
-        if ($book->cover && Storage::disk('public')->exists($book->cover)) {
-            Storage::disk('public')->delete($book->cover);
+        // Hapus file cover jika ada
+        if ($book->cover && file_exists(public_path($book->cover))) {
+            unlink(public_path($book->cover));
         }
 
         $book->delete();

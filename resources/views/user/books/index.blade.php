@@ -9,8 +9,8 @@
                 <div class="bg-white rounded-xl shadow hover:shadow-md transition duration-200 p-4 flex flex-col justify-between">
                     
                     {{-- ✅ Cover Gambar --}}
-                    @if ($book->cover && file_exists(public_path('storage/' . $book->cover)))
-                        <img src="{{ asset('storage/' . $book->cover) }}"
+                    @if ($book->cover && file_exists(public_path($book->cover)))
+                        <img src="{{ asset($book->cover) }}"
                              alt="{{ $book->title }}"
                              class="w-full h-48 object-cover rounded mb-4">
                     @else
