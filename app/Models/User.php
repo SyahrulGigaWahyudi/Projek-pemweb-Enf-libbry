@@ -2,48 +2,58 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    // Kolom yang bisa diisi massal
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+    // Kolom yang disembunyikan saat serialisasi (misalnya JSON response)
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    // Cast untuk tipe data
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Relasi many-to-many ke tabel books (bookmark)
+     * Menggunakan tabel pivot book_user
+     */
+    public function bookmarks()
+    {
+        return $this->belongsToMany(Book::class, 'book_user', 'user_id', 'book_id')->withTimestamps();
+    }
+
+    /**
+     * Relasi one-to-many ke tabel notes (catatan pribadi)
+     */
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
+
+    /**
+     * Relasi one-to-many ke tabel recommendations (rekomendasi buku)
+     */
+    public function recommendations()
+    {
+        return $this->hasMany(Recommendation::class);
     }
 }

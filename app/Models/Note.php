@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,9 +9,17 @@ class Note extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['bookTitle', 'chapter', 'pages', 'content', 'tags'];
-
-    protected $casts = [
-        'tags' => 'array',
+    protected $fillable = [
+        'user_id',
+        'title',
+        'chapter',
+        'page',
+        'description', // ✅ ganti dari 'content' ke 'description'
     ];
+
+    // Relasi ke User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

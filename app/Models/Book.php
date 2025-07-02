@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
-     public function bookmarks()
-    {
-        return $this->hasMany(Bookmark::class);
-    }
+    protected $fillable = [
+        'title',
+        'author',
+        'publisher',
+        'year',
+        'description',
+        'cover',
+        'read_link',
+    ];
 }

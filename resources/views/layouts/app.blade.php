@@ -1,46 +1,40 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard - ENF-Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
-  <header>
-    <h1>📚 Enf-Library</h1>
-    <nav>
-      <a href="{{ url('/') }}">Beranda</a>
-      <a href="/ebook">E-Book & Artikel</a>
-      <a href="/bookmark">Bookmark</a>
-      <a href="{{ route('catatan.index') }}">Catatan</a>
-      <a href="/rekomendasi">Rekomendasi</a>
-    </nav>
-  </header>
+    <!-- Navbar (dibuat lebih rapi dan konsisten di seluruh halaman) -->
+    <nav class="bg-blue-600 text-white px-10 py-4 shadow-md">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-6">
+                <h1 class="text-xl font-bold tracking-wide">📘 ENF-Library</h1>
+                <a href="{{ route('user.dashboard') }}" class="hover:underline">Dashboard</a>
+                <a href="{{ route('user.books.index') }}" class="hover:underline">Daftar Buku</a>
+                <a href="{{ route('user.bookmarks.index') }}" class="hover:underline">Bookmark</a>
+                <a href="{{ route('user.notes.index') }}" class="hover:underline">Catatan</a>
+                <a href="{{ route('user.recommendations.index') }}" class="hover:underline">Rekomendasi</a>
+            </div>
+            <div>
+                <a href="{{ route('logout') }}"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                   class="hover:underline">Logout</a>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                    @csrf
+                </form>
+            </div>
         </div>
-    </body>
+    </nav>
+
+    <!-- Content -->
+    <main class="container mx-auto px-6 py-10">
+        @yield('content')
+    </main>
+
+</body>
 </html>
